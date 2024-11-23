@@ -1,4 +1,4 @@
-class Pregunta {
+class Pregunta {      //Primera clase referente a la estructura de la pregunta (texto, opciones, votos)
 constructor(texto, opciones) {
     
  this.texto = texto;
@@ -19,7 +19,7 @@ calcularResultado(); {
 return this.opciones.map((opcion, index) => ({opcion,votos: this.votos[index],}))}
 
 
-class Encuesta {
+class Encuesta { //Segunda clase referente a la estructura de la encuesta (titulo, preguntas)
     constructor(titulo) {
         this.titulo = titulo;
         this.preguntas = []; 
@@ -48,4 +48,25 @@ mostrarResultados(); {
 
 
  
-    
+class Sistemadeencuestas { //Tercera clase referente a la estructura de la aplicación (encuestas, preguntas, votos)
+    constructor() {
+        this.encuestas = [];
+    }
+    crearEncuesta(titulo) {
+     const nuevaEncuesta = new Encuesta(titulo);
+     this.encuestas.push(nuevaEncuesta);
+     return nuevaEncuesta;
+    }
+
+    listarEncuestas() {
+        this.encuestas.forEach((encuesta, index) => {console.log(`Encuesta ${index + 1}: ${encuesta.titulo}`)});
+    }}
+
+    votar(encuestaIndex, preguntaIndex, opcion); {
+        if (this.encuestas[encuestaIndex]) {
+            this.encuestas[encuestaIndex].votar(preguntaIndex, opcion);
+        } else {
+            console.log("Encuesta no válida");
+    }
+}
+

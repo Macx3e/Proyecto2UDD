@@ -1,72 +1,166 @@
-class Pregunta {      //Primera clase referente a la estructura de la pregunta (texto, opciones, votos)
-constructor(texto, opciones) {
-    
- this.texto = texto;
- this.opciones = opciones; //Array de opciones de la pregunta ("Si", "No", "No lo sé","Tal, vez") para el usuario
- this.votos = new array (opciones.length).fill(0); //Array de números que representan la cantidad de votos de cada opcion
-}}
-    
-registrarvoto(opcion); {
-    const indice = this.opciones.indexOf(opcion);
-    if (indice !== -1) {
-         this.votos[indice]++;
+// Clase para representar una pregunta
+class Pregunta {
+    constructor(texto, opciones) {
+        this.texto = texto;
+        this.opciones = opciones; // Array de opciones
+        this.votos = new Array(opciones.length).fill(0); // Inicializamos votos en 0
+    }
+
+    votar(opcionIndex) {
+        if (opcionIndex >= 0 && opcionIndex < this.opciones.length) {
+            this.votos[opcionIndex]++;
         } else {
-        console.log("Opción no válida");
+            alert("Opción inválida");
+        }
+    }
+
+    mostrarResultados() {
+        let resultados = `${this.texto}\n`;
+        this.opciones.forEach((opcion, index) => {
+            resultados += `${opcion}: ${this.votos[index]} votos\n`;
+        });
+        return resultados;
     }
 }
-    
-calcularResultado(); {
-return this.opciones.map((opcion, index) => ({opcion,votos: this.votos[index],}))}
 
-
-class Encuesta { //Segunda clase referente a la estructura de la encuesta (titulo, preguntas)
+// Clase para representar una encuesta
+class Encuesta {
     constructor(titulo) {
         this.titulo = titulo;
-        this.preguntas = []; 
+        this.preguntas = [];
+    }
+
+    agregarPregunta(pregunta) {
+        this.preguntas.push(pregunta);
+    }
+
+    votarEnPregunta(indicePregunta) {
+        const pregunta = this.preguntas[indicePregunta];
+        if (!pregunta) {
+            alert("Pregunta no encontrada.");
+            return;
+        }
+
+        let opcionesTexto = pregunta.opciones
+            .map((opcion, index) => `${index + 1}. ${opcion}`)
+            .join("\n");
+        const respuesta = parseInt(
+            prompt(`Pregunta: ${pregunta.texto}\n${opcionesTexto}\nIngresa el número de tu respuesta:`),
+            10
+        );
+
+        pregunta.votar(respuesta - 1);
+    }
+
+    mostrarResultados() {
+        let resultados = `Resultados de la encuesta: ${this.titulo}\n`;
+        this.preguntas.forEach((pregunta) => {
+            resultados += pregunta.mostrarResultados() + "\n";
+        });
+        alert(resultados);
     }
 }
 
-crearPregunta(pregunta); {
-    this.preguntas.push(pregunta);
-}
-
-
-votar(preguntaIndex, opcion); {
-    if (this.preguntas[preguntaIndex]) {
-   this.preguntas[preguntaIndex].registrarvoto(opcion);
-    } else {
-        console.log("Pregunta no válida");
-    }
-}
-
-mostrarResultados(); {
-    console.log("Resultados de la encuesta: ${this.titulo}");
-    this.preguntas.forEach((pregunta, index) => {console.log(`Pregunta ${index + 1}: ${pregunta.texto}`)});
-    pregunta.obtenerResultados().forEach((resultado, index) => {console.log(`Opción ${index + 1}: ${resultado.opcion} - ${resultado.votos} votos`)});
-}
-
-
-
- 
-class Sistemadeencuestas { //Tercera clase referente a la estructura de la aplicación (encuestas, preguntas, votos)
+// Clase para gestionar el sistema de encuestas
+class SistemaDeEncuestas {
     constructor() {
         this.encuestas = [];
     }
-    crearEncuesta(titulo) {
-     const nuevaEncuesta = new Encuesta(titulo);
-     this.encuestas.push(nuevaEncuesta);
-     return nuevaEncuesta;
+
+    crearEncuesta() {
+        const titulo = prompt("Ingresa el título de la encuesta:");
+        const nuevaEncuesta = new Encuesta(titulo);
+
+        for (let i = 0; i < 8; i++) {
+            const texto = prompt(`Ingresa el texto de la pregunta ${i + 1}:`);
+            const opciones = prompt("Ingresa las opciones separadas por comas:").split(",");
+            const nuevaPregunta = new Pregunta(texto, opciones);
+            nuevaEncuesta.agregarPregunta(nuevaPregunta);
+        }
+
+        this.encuestas.push(nuevaEncuesta);
+        alert(`Encuesta "${titulo}" creada exitosamente.`);
     }
 
-    listarEncuestas() {
-        this.encuestas.forEach((encuesta, index) => {console.log(`Encuesta ${index + 1}: ${encuesta.titulo}`)});
-    }}
+    votar() {
+        if (this.encuestas.length === 0) {
+            alert("No hay encuestas disponibles.");
+            return;
+        }
 
-    votar(encuestaIndex, preguntaIndex, opcion); {
-        if (this.encuestas[encuestaIndex]) {
-            this.encuestas[encuestaIndex].votar(preguntaIndex, opcion);
-        } else {
-            console.log("Encuesta no válida");
+        const titulosEncuestas = this.encuestas
+            .map((encuesta, index) => `${index + 1}. ${encuesta.titulo}`)
+            .join("\n");
+        const indiceEncuesta = parseInt(
+            prompt(`Selecciona una encuesta para votar:\n${titulosEncuestas}`),
+            10
+        );
+
+        const encuestaSeleccionada = this.encuestas[indiceEncuesta - 1];
+        if (!encuestaSeleccionada) {
+            alert("Encuesta no encontrada.");
+            return;
+        }
+
+        const preguntasTexto = encuestaSeleccionada.preguntas
+            .map((pregunta, index) => `${index + 1}. ${pregunta.texto}`)
+            .join("\n");
+        const indicePregunta = parseInt(
+            prompt(`Selecciona una pregunta para votar:\n${preguntasTexto}`),
+            10
+        );
+
+        encuestaSeleccionada.votarEnPregunta(indicePregunta - 1);
+    }
+
+    mostrarResultados() {
+        if (this.encuestas.length === 0) {
+            alert("No hay encuestas disponibles.");
+            return;
+        }
+
+        const titulosEncuestas = this.encuestas
+            .map((encuesta, index) => `${index + 1}. ${encuesta.titulo}`)
+            .join("\n");
+        const indiceEncuesta = parseInt(
+            prompt(`Selecciona una encuesta para ver los resultados:\n${titulosEncuestas}`),
+            10
+        );
+
+        const encuestaSeleccionada = this.encuestas[indiceEncuesta - 1];
+        if (!encuestaSeleccionada) {
+            alert("Encuesta no encontrada.");
+            return;
+        }
+
+        encuestaSeleccionada.mostrarResultados();
     }
 }
 
+// Inicializar el sistema
+const sistema = new SistemaDeEncuestas();
+
+let opcion;
+do {
+    opcion = prompt(
+        "Sistema de Encuestas\nSelecciona una opción:\n1. Crear una encuesta\n2. Votar en una encuesta\n3. Ver resultados de una encuesta\n4. Salir"
+    );
+
+    switch (opcion) {
+        case "1":
+            sistema.crearEncuesta();
+            break;
+        case "2":
+            sistema.votar();
+            break;
+        case "3":
+            sistema.mostrarResultados();
+            break;
+        case "4":
+            alert("Saliendo del sistema...");
+            break;
+        default:
+            alert("Opción inválida. Intenta nuevamente.");
+            break;
+    }
+} while (opcion !== "4");

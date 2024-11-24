@@ -1,9 +1,10 @@
 //Index.js orientado a la PF (Programación Funcional), la idea de esto es implementar las mismas funcionalidades que en el POO
 //pero usando funciones puras, enfoque distinto y estructura de datos mas sencilla y limpia
 
+// Datos iniciales
 const encuestas = []; // Almacena las encuestas
 
-// funcion para crear una encuesta
+// Función para crear una encuesta
 const crearEncuesta = () => {
     const titulo = prompt("¿Cuál es el título de la encuesta?");
     const preguntas = [];
@@ -23,7 +24,7 @@ const crearEncuesta = () => {
     alert(`¡La encuesta "${titulo}" fue creada con éxito!`);
 };
 
-// funcion para votar en una encuesta 
+// Función para votar en una encuesta
 const votarEnEncuesta = () => {
     if (encuestas.length === 0) {
         alert("No hay encuestas disponibles para votar.");
@@ -60,7 +61,7 @@ const votarEnEncuesta = () => {
     alert("¡Voto registrado con éxito!");
 };
 
-// funcion de mostrar los resultados
+// Función para mostrar resultados
 const mostrarResultados = () => {
     if (encuestas.length === 0) {
         alert("No hay encuestas disponibles para mostrar resultados.");
@@ -74,44 +75,42 @@ const mostrarResultados = () => {
         alert("Selección inválida. Intenta de nuevo.");
         return;
     }
+
+    const encuesta = encuestas[encuestaIndex];
+    let resultados = `Resultados de la encuesta "${encuesta.titulo}":\n`;
+
+    encuesta.preguntas.forEach((pregunta, index) => {
+        resultados += `\n${index + 1}. ${pregunta.texto}\n`;
+        pregunta.opciones.forEach((opcion, opcionIndex) => {
+            resultados += `   ${opcion}: ${pregunta.votos[opcionIndex]} votos\n`;
+        });
+    });
+
+    alert(resultados);
 };
 
-
-const encuesta = encuestas[encuestaIndex];
-let resultados = `Resultados de la encuesta "${encuesta.titulo}":\n`;
-
-encuesta.preguntas.forEach((pregunta, index) => {
-    resultados += `\n${index + 1}. ${pregunta.texto}\n`;
-    pregunta.opciones.forEach((opcion, opcionIndex) => {
-        resultados += `   ${opcion}: ${pregunta.votos[opcionIndex]} votos\n`;
-    });
-});
-
-alert(resultados);
-
-
-// inicio de sistema o "menu principal" por asi decirse 
+// Menú principal
 const iniciarSistema = () => {
-let continuar = true;
+    let continuar = true;
 
-while (continuar) {
-    const opcion = prompt(
-        "Sistema de Encuestas\nElige una opción:\n1. Crear una encuesta\n2. Votar en una encuesta\n3. Mostrar resultados\n4. Salir"
-    );
+    while (continuar) {
+        const opcion = prompt(
+            "Sistema de Encuestas\nElige una opción:\n1. Crear una encuesta\n2. Votar en una encuesta\n3. Mostrar resultados\n4. Salir"
+        );
 
-    if (opcion === "1") {
-        crearEncuesta();
-    } else if (opcion === "2") {
-        votarEnEncuesta();
-    } else if (opcion === "3") {
-        mostrarResultados();
-    } else if (opcion === "4") {
-        continuar = false;
-        alert("Saliendo del sistema...");
-    } else {
-        alert("Opción inválida. Intenta nuevamente.");
+        if (opcion === "1") {
+            crearEncuesta();
+        } else if (opcion === "2") {
+            votarEnEncuesta();
+        } else if (opcion === "3") {
+            mostrarResultados();
+        } else if (opcion === "4") {
+            continuar = false;
+            alert("Saliendo del sistema...");
+        } else {
+            alert("Opción inválida. Intenta nuevamente.");
+        }
     }
-}
 };
 
 // Iniciar el sistema

@@ -137,30 +137,31 @@ class SistemaDeEncuestas {
     }
 }
 
-// Inicializar el sistema
+//Iniciar sistema pero sin break/switch 
+
 const sistema = new SistemaDeEncuestas();
 
-let opcion;
+let continuar = true; // Variable para controlar el bucle
 do {
-    opcion = prompt(
+    const opcion = prompt(
         "Sistema de Encuestas\nSelecciona una opción:\n1. Crear una encuesta\n2. Votar en una encuesta\n3. Ver resultados de una encuesta\n4. Salir"
     );
 
-    switch (opcion) {
-        case "1":
-            sistema.crearEncuesta();
-            break;
-        case "2":
-            sistema.votar();
-            break;
-        case "3":
-            sistema.mostrarResultados();
-            break;
-        case "4":
-            alert("Saliendo del sistema...");
-            break;
-        default:
-            alert("Opción inválida. Intenta nuevamente.");
-            break;
+    // Evaluamos si el usuario quiere salir
+    if (opcion === "4") {
+        alert("Saliendo del sistema...");
+        continuar = false; // Cambiamos la variable para salir del bucle
     }
-} while (opcion !== "4");
+
+    // Condicionales dentro del ciclo, sin usar break
+    if (opcion === "1") {
+        sistema.crearEncuesta();
+    } else if (opcion === "2") {
+        sistema.votar();
+    } else if (opcion === "3") {
+        sistema.mostrarResultados();
+    } else if (opcion !== "4") {
+        alert("Opción inválida. Intenta nuevamente.");
+    }
+
+} while (continuar);

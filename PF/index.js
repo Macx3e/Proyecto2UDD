@@ -76,3 +76,43 @@ const mostrarResultados = () => {
     }
 };
 
+
+const encuesta = encuestas[encuestaIndex];
+let resultados = `Resultados de la encuesta "${encuesta.titulo}":\n`;
+
+encuesta.preguntas.forEach((pregunta, index) => {
+    resultados += `\n${index + 1}. ${pregunta.texto}\n`;
+    pregunta.opciones.forEach((opcion, opcionIndex) => {
+        resultados += `   ${opcion}: ${pregunta.votos[opcionIndex]} votos\n`;
+    });
+});
+
+alert(resultados);
+
+
+// inicio de sistema o "menu principal" por asi decirse 
+const iniciarSistema = () => {
+let continuar = true;
+
+while (continuar) {
+    const opcion = prompt(
+        "Sistema de Encuestas\nElige una opción:\n1. Crear una encuesta\n2. Votar en una encuesta\n3. Mostrar resultados\n4. Salir"
+    );
+
+    if (opcion === "1") {
+        crearEncuesta();
+    } else if (opcion === "2") {
+        votarEnEncuesta();
+    } else if (opcion === "3") {
+        mostrarResultados();
+    } else if (opcion === "4") {
+        continuar = false;
+        alert("Saliendo del sistema...");
+    } else {
+        alert("Opción inválida. Intenta nuevamente.");
+    }
+}
+};
+
+// Iniciar el sistema
+iniciarSistema();

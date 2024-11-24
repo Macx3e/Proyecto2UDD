@@ -1,7 +1,7 @@
 //Index.js orientado a la PF (Programación Funcional), la idea de esto es implementar las mismas funcionalidades que en el POO
 //pero usando funciones puras, enfoque distinto y estructura de datos mas sencilla y limpia
 
-// Función para crear una pregunta que posteriormente podamos votar y que se almacene
+// Función para crear una pregunta que posteriormente podamos votar y que se almacene en los datos 
 function crearPregunta(texto, opciones) {
     return {
         texto: texto,

@@ -129,3 +129,36 @@ if (!encuestaSeleccionada) {
     return;
 }
 }
+
+mostrarResultadosEncuesta(encuestaSeleccionada);
+
+
+// funcion para gestionar el sistema
+function gestionarSistemaEncuestas() {
+    let encuestas = [];
+    let continuar = true; // Control de flujo sin break ni switch, recomendacion tomada en clases
+    
+    do {
+        const opcion = prompt(
+            "Sistema de Encuestas\nSelecciona una opción:\n1. Crear una encuesta\n2. Votar en una encuesta\n3. Ver resultados de una encuesta\n4. Salir"
+        );
+
+        if (opcion === "4") {
+            alert("Saliendo del sistema...");
+            continuar = false; r
+        } else if (opcion === "1") {
+            const nuevaEncuesta = crearEncuestaInteractiva();
+            encuestas.push(nuevaEncuesta);
+        } else if (opcion === "2") {
+            votarEncuestaInteractiva(encuestas);
+        } else if (opcion === "3") {
+            mostrarResultadosInteractivos(encuestas);
+        } else {
+            alert("Opción inválida. Intenta nuevamente.");
+        }
+
+    } while (continuar);
+}
+
+
+gestionarSistemaEncuestas();

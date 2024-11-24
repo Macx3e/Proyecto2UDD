@@ -96,3 +96,36 @@ function votarEncuestaInteractiva(encuestas) {
         prompt(`Selecciona una pregunta para votar:\n${preguntasTexto}`),
         10
     );}
+
+    const opcionesTexto = encuestaSeleccionada.preguntas[indicePregunta - 1].opciones
+    .map((opcion, index) => `${index + 1}. ${opcion}`)
+    .join("\n");
+const opcionVotada = parseInt(
+    prompt(`Ingresa el número de tu respuesta:\n${opcionesTexto}`),
+    10
+);
+
+votarEncuesta(encuestaSeleccionada, indicePregunta - 1, opcionVotada - 1);
+
+
+// Funcion para mostrar los resultados interactivos
+function mostrarResultadosInteractivos(encuestas) {
+if (encuestas.length === 0) {
+    alert("No hay encuestas disponibles.");
+    return;
+}
+
+const titulosEncuestas = encuestas
+    .map((encuesta, index) => `${index + 1}. ${encuesta.titulo}`)
+    .join("\n");
+const indiceEncuesta = parseInt(
+    prompt(`Selecciona una encuesta para ver los resultados:\n${titulosEncuestas}`),
+    10
+);
+
+const encuestaSeleccionada = encuestas[indiceEncuesta - 1];
+if (!encuestaSeleccionada) {
+    alert("Encuesta no encontrada.");
+    return;
+}
+}

@@ -27,3 +27,29 @@ function mostrarResultadosPregunta(pregunta) {
     });
     return resultados;
 }
+// funcion de crear la encuesta
+function crearEncuesta(titulo, preguntas) {
+    return {
+        titulo: titulo,
+        preguntas: preguntas,
+    };
+}
+
+// funcion de votar 
+function votarEncuesta(encuesta, indicePregunta, opcionIndex) {
+    const pregunta = encuesta.preguntas[indicePregunta];
+    if (!pregunta) {
+        alert("Pregunta no encontrada.");
+        return;
+    }
+    votarPregunta(pregunta, opcionIndex);
+}
+
+// funcion de mostrar resultados
+function mostrarResultadosEncuesta(encuesta) {
+    let resultados = `Resultados de la encuesta: ${encuesta.titulo}\n`;
+    encuesta.preguntas.forEach((pregunta) => {
+        resultados += mostrarResultadosPregunta(pregunta) + "\n";
+    });
+    alert(resultados);
+}

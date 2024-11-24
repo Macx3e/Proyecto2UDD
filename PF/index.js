@@ -53,3 +53,46 @@ function mostrarResultadosEncuesta(encuesta) {
     });
     alert(resultados);
 }
+
+// Función para crear una encuesta interactiva
+function crearEncuestaInteractiva() {
+    const titulo = prompt("Ingresa el título de la encuesta:");
+    const preguntas = [];
+    
+    for (let i = 0; i < 8; i++) {
+        const texto = prompt(`Ingresa el texto de la pregunta ${i + 1}:`);
+        const opciones = prompt("Ingresa las opciones separadas por comas:").split(",");
+        preguntas.push(crearPregunta(texto, opciones));
+    }
+
+    return crearEncuesta(titulo, preguntas);
+}
+
+// funcion para votar en una encuesta que se pueda participar 
+function votarEncuestaInteractiva(encuestas) {
+    if (encuestas.length === 0) {
+        alert("No hay encuestas disponibles.");
+        return;
+    }
+
+    const titulosEncuestas = encuestas
+        .map((encuesta, index) => `${index + 1}. ${encuesta.titulo}`)
+        .join("\n");
+    const indiceEncuesta = parseInt(
+        prompt(`Selecciona una encuesta para votar:\n${titulosEncuestas}`),
+        10
+    );
+
+    const encuestaSeleccionada = encuestas[indiceEncuesta - 1];
+    if (!encuestaSeleccionada) {
+        alert("Encuesta no encontrada.");
+        return;
+    }
+
+    const preguntasTexto = encuestaSeleccionada.preguntas
+        .map((pregunta, index) => `${index + 1}. ${pregunta.texto}`)
+        .join("\n");
+    const indicePregunta = parseInt(
+        prompt(`Selecciona una pregunta para votar:\n${preguntasTexto}`),
+        10
+    );}
